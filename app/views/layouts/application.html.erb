@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CaptainChallenge</title>
+    <title>Captain Contrat Battles</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body>
-    <%= yield %>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <span style="margin-bottom:10px;display:block">
+            <%if !user_signed_in?%>
+              <%= link_to 'Connexion', user_session_path, class: "btn btn-outline-primary" %>
+              <%= link_to 'Inscription', new_user_registration_path, class: "btn btn-outline-success" %>
+            <%else%>
+              <%= link_to current_user.email, edit_user_registration_path, class: "h4" %>
+              <%= link_to "Dec", destroy_user_session_path, method: :delete, class: "h4" %>
+            <%end%>
+          </span>
+        </div>
+        <div class="col-md-9"></div>
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>
