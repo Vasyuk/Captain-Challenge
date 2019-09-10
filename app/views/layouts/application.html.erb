@@ -18,13 +18,19 @@
               <%= link_to 'Connexion', user_session_path, class: "btn btn-outline-primary" %>
               <%= link_to 'Inscription', new_user_registration_path, class: "btn btn-outline-success" %>
             <%else%>
-              <%= link_to current_user.email, edit_user_registration_path, class: "h4" %>
-              <%= link_to "Dec", destroy_user_session_path, method: :delete, class: "h4" %>
+              <%= link_to current_user.email, edit_user_registration_path, class: "h6" %>
+              <%= link_to "Dec", destroy_user_session_path, method: :delete, class: "h6" %>
             <%end%>
           </span>
+          <div class="list-group">
+            <%= link_to 'Champ de bataille', battleground_path, class: "list-group-item list-group-item-action active" %>
+            <%= link_to 'Guerriers',  warriors_path, class: "list-group-item list-group-item-action"  %>
+            <%= link_to 'Statistiques',  stats_path, class: "list-group-item list-group-item-action" %>
+          </div>
         </div>
-        <div class="col-md-9"></div>
-        <%= yield %>
+        <div class="col-md-9">
+          <%= yield %>
+        </div>
       </div>
     </div>
   </body>

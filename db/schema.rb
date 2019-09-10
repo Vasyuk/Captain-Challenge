@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_07_210849) do
+ActiveRecord::Schema.define(version: 2019_09_08_074417) do
+
+  create_table "battles", force: :cascade do |t|
+    t.integer "warrior_one_id", null: false
+    t.integer "warrior_two_id", null: false
+    t.integer "winner_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string "type_item", null: false
+    t.string "name", null: false
+    t.integer "power", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -28,6 +42,8 @@ ActiveRecord::Schema.define(version: 2019_09_07_210849) do
     t.integer "creater_id"
     t.string "image"
     t.string "name", null: false
+    t.text "description"
+    t.integer "level", default: 1
     t.integer "strength", default: 0
     t.integer "armor", default: 0
     t.integer "endurance", default: 0

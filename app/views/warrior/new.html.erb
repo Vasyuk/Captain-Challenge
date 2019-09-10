@@ -1,0 +1,9 @@
+<%= form_with model: @warrior, class: "form-group" do |f| %>
+  <%= f.hidden_field :creater_id, value: current_user.id%>
+  <%= label_tag(:name, "Name") %>
+  <%= f.text_field :name, class: "form-control" %>
+  <%= label_tag(:description, "Description") %>
+  <%= f.text_field :description, class: "form-control"  %>
+  <%= f.file_field :image,class:"form-control-file" %>
+  <%= f.submit "Create", class:"btn btn-primary" %>
+<% end %>
