@@ -1,9 +1,44 @@
+<p class="h2 text-center">Nouveux guerrier</p>
 <%= form_with model: @warrior, class: "form-group" do |f| %>
-  <%= f.hidden_field :creater_id, value: current_user.id%>
-  <%= label_tag(:name, "Name") %>
-  <%= f.text_field :name, class: "form-control" %>
-  <%= label_tag(:description, "Description") %>
-  <%= f.text_field :description, class: "form-control"  %>
-  <%= f.file_field :image,class:"form-control-file" %>
-  <%= f.submit "Create", class:"btn btn-primary" %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= f.hidden_field :creater_id, value: current_user.id%>
+      <%= label_tag(:name, "Name") %>
+      <%= f.text_field :name, class: "form-control" %>
+      <%= label_tag(:description, "Description") %>
+      <%= f.text_field :description, class: "form-control"  %>
+    </div>
+    <div class="col-md-6">
+      <%= f.file_field :image,class:"form-control-file" %>
+    </div>
+    <div class="col-md-12">
+      <%= f.submit "Create", class:"btn btn-primary" %>
+    </div>
+  </div>
 <% end %>
+<script>
+
+
+  $('#remakeQuiz').click(function(){
+    cleanResponses()
+    navigation_loading("begin",null,null)
+  })
+
+  $(".rate_training a").each(function(event) {
+    $(this).click(function(){
+      $("#goTraining").prop('disabled', false)
+      rates($(this).index())
+    })
+  })
+
+  function rates(index){
+    count_star = index + 1
+    for(i=0;i<=5;i++ ){
+        $(".rate_training a:eq("+i+")").find("svg").attr('class',"fal fa-star")
+    }
+    for(i=0;i<=index;i++ ){
+        $(".rate_training a:eq("+i+")").find("svg").attr('class',"fas fa-star")
+    }
+  }
+
+</script>

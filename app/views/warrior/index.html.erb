@@ -1,1 +1,40 @@
-<%= link_to 'Créer un guérier',  new_warrior_path, class: "btn btn-primary btn-lg"  %>
+<%= link_to 'Créer un guerrier',  new_warrior_path, class: "btn btn-primary btn-lg"  %>
+<h2>Mes Guerriers</h2>
+<div class="row">
+  <%if @current_user_warriors.present?%>
+    <%@current_user_warriors.each do |warrior|%>
+      <div class="col-md-4">
+        <div class="card">
+          <span class=card-level><%=warrior.level%></span>
+          <span class="card-image"><%= image_tag(warrior.image_url, class: "card-img-top") %></span>
+          <div class="card-body">
+            <h5 class="card-title"><%=warrior.name%></h5>
+            <p class="card-text"><%=warrior.description%></p>
+            <%= link_to 'Voir le guerrier',  warrior_path(warrior), class: "btn btn-primary"  %>
+          </div>
+        </div>
+      </div>
+    <%end%>
+  <%else%>
+    <h4>Pas de Guerriers</h4>
+  <%end%>
+</div>
+<h2>Les Guerriers des ennemis</h2>
+<div class="row">
+  <%if @enemy_warriors.present?%>
+    <%@enemy_warriors.each do |warrior|%>
+      <div class="col-md-4">
+        <div class="card">
+          <span class="card-image"><%= image_tag(warrior.image_url, class: "card-img-top") %></span>
+          <div class="card-body">
+            <h5 class="card-title"><%=warrior.name%></h5>
+            <p class="card-text"><%=warrior.description%></p>
+            <%= link_to 'Créer un guerrier',  warrior_path(warrior), class: "btn btn-primary"  %>
+          </div>
+        </div>
+      </div>
+    <%end%>
+  <%else%>
+    <h5>Pas de Guerriers</h5>
+  <%end%>
+</div>

@@ -3,30 +3,34 @@ class WarriorsController < ApplicationController
   # GET /warriores
   # GET /warriores.json
   def index
-    @warriors = Warrior.all
+    @current_user_warriors = Warrior.where(creater_id: current_user.id)
+    @enemy_warriors = Warrior.where.not(creater_id: current_user.id)
     render template: "warrior/index"
   end
 
   # GET /warriores/1
   # GET /warriores/1.json
   def show
+    render template: "warrior/show"
   end
 
   # GET /warriores/new
   def new
     @warrior = Warrior.new
+
     render template: "warrior/new"
   end
 
   # GET /warriores/1/edit
   def edit
+    @warrior = set_warriore()
+    render template: "warrior/edit"
   end
 
   # POST /warriores
   # POST /warriores.json
   def create
     @warrior = Warrior.new(warriore_params)
-
     respond_to do |format|
       if @warrior.save
         format.html { redirect_to @warrior, notice: 'Warrior was successfully created.' }
@@ -60,6 +64,12 @@ class WarriorsController < ApplicationController
       format.html { redirect_to warriores_url, notice: 'Warrior was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def warrior_points
+    warrior = set_warriore()
+    control_scale_data = {aromor_points: warrior.armor, strength_points: warrior.strength}
+    render :json => control_scale_data
   end
 
   private

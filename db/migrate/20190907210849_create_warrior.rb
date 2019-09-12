@@ -6,9 +6,8 @@ class CreateWarrior < ActiveRecord::Migration[5.2]
       t.string :name, null: false
       t.text :description
       t.integer :level,  default: 1
-      t.integer :strength, default: 0
-      t.integer :armor, default: 0
-      t.integer :endurance, default: 0
+      t.integer :strength, default: 2
+      t.integer :armor, default: 2
     end
   end
 end

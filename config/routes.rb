@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   get  '/battleground', to: 'static_pages#battleground', as: :battleground
   get  '/stats', to: 'static_pages#stats', as: :stats
 
+  get '/warrior_points', to: 'warriors#warrior_points'
+
 end

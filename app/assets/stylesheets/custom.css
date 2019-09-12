@@ -1,3 +1,77 @@
+
+.vertical-align {
+    display: flex !important;
+    align-items: center;
+}
 .container{
   margin-top: 50px;
+}
+
+.card-image{
+  height: 240px;
+  overflow: hidden;
+}
+
+.card{
+  position: relative;
+}
+
+.card-level{
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  width: 25px;
+  height: 25px;
+  border-radius: 20px;
+  display: block;
+  border: 2px solid;
+  color: #d91f30;
+  text-align: center;
+  cursor: default;
+}
+
+.btn-primary{
+  background-color: #d91f30;
+  border-color: #d91f30;
+}
+
+.list-group-item.active{
+  background-color: #d91f30;
+  border-color: #d91f30;
+}
+
+.scale{
+  position: relative;
+  display: table;
+}
+
+.scale span{
+  display: inline-block;
+  height: 20px;
+  border: 1px solid #d91f30;
+  width: 20px;
+  border-radius: 10px;
+}
+
+.scale span.active{
+  background-color: #d91f30;
+}
+
+.control_scale a{
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+
+.control_scale_plus{
+  right: -20px;
+  position: absolute;
+  top: 0;
+}
+
+.control_scale_minus{
+  left: -20px;
+  position: absolute;
+  top: 0;
 }
