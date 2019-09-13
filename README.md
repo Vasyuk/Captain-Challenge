@@ -1,24 +1,11 @@
-# README
+CAPTAIN CONTRAT BATTLES
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Pour y jouer vous devez créer un compte, puis de créer vos guerriers.
 
-Things you may want to cover:
+Bonne chance!
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Merci de lancer ces commandes avant:
+bundle install
+rails db:migrate
+rails db:seed
+rails s

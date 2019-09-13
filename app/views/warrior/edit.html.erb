@@ -1,5 +1,4 @@
 <%= form_with model: @warrior, class: "form-group" do |f| %>
-<%= render "devise/shared/error_messages", resource: resource %>
   <div class="row">
     <div class="col-md-6">
       <%= f.hidden_field :creater_id, value: current_user.id%>
