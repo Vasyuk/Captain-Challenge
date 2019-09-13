@@ -1,1 +1,139 @@
+<div class="row">
+  <%if current_user%>
+    <div class="col-md-3 battleground_warriors_case">
+      <p class="h4 text-center">Mes guerriers</p>
+      <%if @current_user_warriors.present?%>
+        <%@current_user_warriors.each do |warrior|%>
+          <div class="col-md-12 padding-none ">
+            <div class="card">
+              <span class=card-level><%=warrior.level%></span>
+              <span class="card-image-min"  id="warrior<%=warrior.id%>"><%= image_tag(warrior.image_url, class: "card-img-top") %></span>
+              <div class="card-body">
+                <h5 class="card-title"><%=warrior.name%></h5>
+                  <p class="h6 margin-none">Défense</p>
+                  <div class="scale scale_min" id="scale_armor">
+                    <%for i in 1..10%>
+                      <%if i <= warrior.armor%>
+                        <span class="active"></span>
+                      <%else%>
+                        <span></span>
+                      <%end%>
+                    <%end%>
+                  </div>
+                  <p class="h6 margin-none">Attaque</p>
+                  <div class="scale scale_min" id="scale_strength">
+                    <%for i in 1..10%>
+                      <%if i <= warrior.strength%>
+                        <span class="active"></span>
+                      <%else%>
+                        <span></span>
+                      <%end%>
+                    <%end%>
+                  </div>
+                <button data-id='<%=warrior.id%>' class="btn btn-primary my_warrior_choose">Choisir</button>
+              </div>
+            </div>
+          </div>
+        <%end%>
+      <%else%>
+        <h4>Pas de Guerriers</h4>
+      <%end%>
+    </div>
+    <div class="col-md-6">
+      <p class="h4 text-center">Combat</p>
+      <span class="batlle_span">
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-8 my_warrior_case"></div>
+          <div class="col-md-2"></div>
+        </div>
+        <p class="h4 text-center">VS</p>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-8 enemy_case"></div>
+          <div class="col-md-2"></div>
+        </div>
+        <button class="battle btn btn-primary lg_btn_center" style="display:none">COMBATTRE</button>
+      </span>
+    </div>
+    <div class="col-md-3 battleground_warriors_case">
+      <p class="h4 text-center">Ennemis</p>
+      <%if @enemy_warriors.present?%>
+        <%@enemy_warriors.each do |warrior|%>
+          <div class="col-md-12 padding-none">
+            <div class="card" >
+              <span class=card-level><%=warrior.level%></span>
+              <span class="card-image-min" id="warrior<%=warrior.id%>"><%= image_tag(warrior.image_url, class: "card-img-top") %></span>
+              <div class="card-body">
+                <h5 class="card-title"><%=warrior.name%></h5>
+                <p class="h6 margin-none">Défense</p>
+                <div class="scale scale_min" id="scale_armor">
+                  <%for i in 1..10%>
+                    <%if i <= warrior.armor%>
+                      <span class="active"></span>
+                    <%else%>
+                      <span></span>
+                    <%end%>
+                  <%end%>
+                </div>
+                <p class="h6 margin-none">Attaque</p>
+                <div class="scale scale_min" id="scale_strength">
+                  <%for i in 1..10%>
+                    <%if i <= warrior.strength%>
+                      <span class="active"></span>
+                    <%else%>
+                      <span></span>
+                    <%end%>
+                  <%end%>
+                </div>
+                <button  data-id='<%=warrior.id%>' class="btn btn-primary enemy_choose">Choisir</button>
+              </div>
+            </div>
+          </div>
+        <%end%>
+      <%else%>
+        <h5>Pas de Guerriers</h5>
+      <%end%>
+    </div>
+  <%else%>
+  <p class="h2 text-center">Créez un compte et un Guerrier pour pouvoir devenir the GOD de CAPTAIN CONTRAT BATTLES</p>  
+  <%end%>
+</div>
+<script>
+  var first_warrior_id
+  var second_warrior_id
 
+  function check_warriors(){
+    console.log(first_warrior_id + " " + second_warrior_id)
+    if (first_warrior_id && second_warrior_id){
+      $('.battle').css('display','block')
+    }
+  }
+
+  $('.my_warrior_choose').click(function(){
+    first_warrior_id = $(this).data('id')
+    $('.my_warrior_case').html($('#warrior' + first_warrior_id).html())
+    check_warriors()
+  })
+
+  $('.enemy_choose').click(function(){
+    second_warrior_id = $(this).data('id')
+    $('.enemy_case').html($('#warrior' + second_warrior_id).html())
+    check_warriors()
+  })
+
+  $('.battle').click(function(){
+    if (first_warrior_id && second_warrior_id){
+      $.ajax({
+        url: "/battle",
+        type: 'post',
+        data: 'first_warrior_id=' + first_warrior_id+ '&second_warrior_id=' + second_warrior_id,
+        success: function(data) {
+          $('.batlle_span').html('<p class="h4 text-center">GAGNANT</p><div class="col-md-12">' +$('#warrior' + data).html()+ '</div><button class="battle btn btn-primary lg_btn_center"><a href="/battleground">Nouveau combat</a></button>')
+          first_warrior_id = 0
+          second_warrior_id = 0
+        }
+      });
+    }
+  })
+</script>

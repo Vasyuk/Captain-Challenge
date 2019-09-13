@@ -3,21 +3,23 @@ class WarriorsController < ApplicationController
   # GET /warriores
   # GET /warriores.json
   def index
-    @current_user_warriors = Warrior.where(creater_id: current_user.id)
-    @enemy_warriors = Warrior.where.not(creater_id: current_user.id)
+    session[:menu] = "index"
+    @current_user_warriors = Warrior.where(creater_id: current_user.id) if user_signed_in?
+    @enemy_warriors = Warrior.where(creater_id: nil)
+    @enemy_warriors += Warrior.where('creater_id != ?', current_user.id) if user_signed_in?
     render template: "warrior/index"
   end
 
   # GET /warriores/1
   # GET /warriores/1.json
   def show
+    @creater_email = User.find( @warrior.creater_id).email if @warrior.creater_id
     render template: "warrior/show"
   end
 
   # GET /warriores/new
   def new
     @warrior = Warrior.new
-
     render template: "warrior/new"
   end
 
@@ -61,15 +63,32 @@ class WarriorsController < ApplicationController
   def destroy
     @warrior.destroy
     respond_to do |format|
-      format.html { redirect_to warriores_url, notice: 'Warrior was successfully destroyed.' }
+      format.html { redirect_to warriors_path, notice: 'Warrior was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
-  def warrior_points
-    warrior = set_warriore()
-    control_scale_data = {aromor_points: warrior.armor, strength_points: warrior.strength}
-    render :json => control_scale_data
+  def statistical
+    data = []
+    last_combats = []
+    warrior = set_warriore
+    battles = Battle.where(warrior_one_id: warrior.id)
+    victory = 0
+    defeat = 0
+    battles.each do |battle|
+      if battle.winner_id == warrior.id
+        result = 'victory'
+        victory += 1
+      else
+        result = 'defeat'
+        defeat += 1
+      end
+      last_combats << {enemy_name: Warrior.find(battle.warrior_two_id).name, result: result}
+    end
+    statistical = {all: battles.length, victory: victory, defeat: defeat}
+    data << statistical
+    data << last_combats
+    render :json => data
   end
 
   private

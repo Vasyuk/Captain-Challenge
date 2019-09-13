@@ -1,10 +1,11 @@
 <%= form_with model: @warrior, class: "form-group" do |f| %>
+<%= render "devise/shared/error_messages", resource: resource %>
   <div class="row">
     <div class="col-md-6">
       <%= f.hidden_field :creater_id, value: current_user.id%>
       <%= f.hidden_field :strength%>
       <%= f.hidden_field :armor%>
-      <%= label_tag(:name, "Name") %>
+      <%= label_tag(:name, "Nom") %>
       <%= f.text_field :name, class: "form-control" %>
       <%= label_tag(:description, "Description") %>
       <%= f.text_area :description, class: "form-control"  %>
@@ -13,69 +14,7 @@
       <%= f.file_field :image,class:"form-control-file" %>
     </div>
     <div class="col-md-12">
-      <p class="h4">Performances</p>
-      <p>Vous avez encore <span id="points_to_add">4</span> points à ajouter</p>
-      <div class="scale" id="scale_armor">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <div class="control_scale">
-          <a class="control_scale_plus" id ="control_scale_aromor_plus">+</a>
-          <a style="display:none" class="control_scale_minus" id ="control_scale_aromor_min">-</a>
-        </div>
-      </div>
-      <div class="scale" id="scale_strength">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <div class="control_scale">
-          <a class="control_scale_plus" id ="control_scale_strength_plus">+</a>
-          <a style="display:none" class="control_scale_minus" id ="control_scale_strength_min">-</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-12">
       <%= f.submit "Modifier", class:"btn btn-primary" %>
     </div>
   </div>
 <% end %>
-<script>
-  control_scale_data = load_warrior_points(<%=@warrior.id%>)
-  for(i=0; i < control_scale_data['aromor_points']; i++ ){
-    $('#scale_armor span').eq(i).addClass('active')
-  }
-  for(i=0; i < control_scale_data['strength_points']; i++ ){
-    $('#scale_strength span').eq(i).addClass('active')
-  }
-
-  $('#control_scale_aromor_plus').click(function(){
-
-  })
-
-  $('#control_scale_aromor_min').click(function(){
-
-  })
-
-  $('#control_scale_strength_plus').click(function(){
-
-  })
-
-  $('#control_scale_strength_min').click(function(){
-
-  })
-
-</script>

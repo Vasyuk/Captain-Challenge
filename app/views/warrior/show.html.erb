@@ -1,1 +1,116 @@
-<%= link_to 'Modifier',  edit_warrior_path(@warrior), class: "btn btn-primary"  %>
+<script>
+  $('.last_combats').val('')
+</script>
+<div class="row">
+  <div class="col-md-12 margin_10">
+    <p class="h2 text-center"><%=@warrior.name%></p>
+  </div>
+  <div class="col-md-6">
+    <span><%= image_tag(@warrior.image_url, class: "card-img-top") %></span>
+  </div>
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-12">
+        <p class="h5">Description</p>
+        <p style="overflow:auto;"><%=@warrior.description%></p>
+      </div>
+      <div class="col-md-6">
+        <p class="h5">Niveau</p>
+        <p style="overflow:auto;"><%=@warrior.level%></p>
+      </div>
+      <div class="col-md-6">
+        <p class="h5">Points</p>
+        <p style="overflow:auto;"><%=@warrior.points%></p>
+      </div>
+      <div class="col-md-6">
+        <p class="h5 margin-none">Défense</p>
+        <div class="scale scale_min" >
+          <%for i in 1..10%>
+            <%if i <= @warrior.armor%>
+              <span class="active"></span>
+            <%else%>
+              <span></span>
+            <%end%>
+          <%end%>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <p class="h5 margin-none">Attaque</p>
+        <div class="scale scale_min">
+          <%for i in 1..10%>
+            <%if i <= @warrior.strength%>
+              <span class="active"></span>
+            <%else%>
+              <span></span>
+            <%end%>
+          <%end%>
+        </div>
+      </div>
+      <%if @warrior.creater_id%>
+        <div class="col-md-6">
+          <p class="h5 margin-none">Créateur</p>
+          <p><%=@creater_email%></p>
+        </div>
+      <%end%>
+    </div>
+  </div>
+  <%if @warrior.creater_id%>
+    <div class="col-md-12 margin_10" style="max-height:400px;overflow:auto">
+      <p class="h4">Statistique de combats</p>
+      <div class='row statistical'>
+        <div class="col-md-4">
+          <p class="h5">Tous</p>
+          <div class="card" >
+            <div class="card-body text-center all h5 margin-none"></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <p class="h5">Virctoires</p>
+          <div class="card">
+              <div class="card-body text-center victorys h5 margin-none"></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <p class="h5">Défaites</p>
+          <div class="card">
+            <div class="card-body text-center defeats h5 margin-none"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 margin_10" >
+      <p class="h4">Les dérniers combats</p>
+      <div style="max-height:400px;overflow:auto" class='row last_combats'></div>
+    </div>
+  <%end%>
+  <div class="col-md-12 margin_10">
+    <%= link_to 'Modifier',  edit_warrior_path(@warrior), class: "btn btn-primary" if  @warrior.creater_id && @warrior.creater_id == current_user.id%>
+    <%= link_to 'Supprimer',  "/warriors/#{@warrior.id}",method: :delete, class: "btn btn-primary" if  @warrior.creater_id && @warrior.creater_id == current_user.id%>
+  </div>
+</div>
+<script>
+  $(document).ready(function() {
+
+    $.ajax({
+      url: "/statistical",
+      type: 'get',
+      data: 'id=<%=@warrior.id%>',
+      success: function(data) {
+        last_combats = data[1]
+        statistical = data[0]
+        $('.all').html(statistical['all'])
+        $('.victorys').html(statistical['victory'])
+        $('.defeats').html(statistical['defeat'])
+        for(i = 0; i < last_combats.length;i++){
+          var color
+          if (last_combats[i]["result"] == 'victory'){
+            color = "green"
+          }else{
+            color = "red"
+          }
+          $('.last_combats').append('<div class="col-md-3" style="margin-bottom:15px;color: white;"><div class="card" style="background:'+color+'"><div class="card-body text-center">'+last_combats[i]["enemy_name"]+'</div></div></div>')
+        }
+      }
+    });
+  })
+</script>

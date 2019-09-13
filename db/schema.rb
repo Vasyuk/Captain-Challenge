@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2019_09_08_074417) do
     t.string "image"
     t.string "name", null: false
     t.text "description"
+    t.integer "points", default: 0
     t.integer "level", default: 1
     t.integer "strength", default: 2
     t.integer "armor", default: 2

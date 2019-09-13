@@ -1,15 +1,35 @@
-<%= link_to 'Créer un guerrier',  new_warrior_path, class: "btn btn-primary btn-lg"  %>
+<%= link_to 'Créer un guerrier',  new_warrior_path, class: "btn btn-primary btn-lg margin_10"  if current_user %>
 <h2>Mes Guerriers</h2>
 <div class="row">
   <%if @current_user_warriors.present?%>
     <%@current_user_warriors.each do |warrior|%>
-      <div class="col-md-4">
+      <div class="col-md-4" style="margin-bottom:15px">
         <div class="card">
           <span class=card-level><%=warrior.level%></span>
           <span class="card-image"><%= image_tag(warrior.image_url, class: "card-img-top") %></span>
           <div class="card-body">
             <h5 class="card-title"><%=warrior.name%></h5>
-            <p class="card-text"><%=warrior.description%></p>
+            <p class="h6 margin-none">Défense</p>
+            <div class="scale scale_big" id="scale_armor">
+              <%for i in 1..10%>
+                <%if i <= warrior.armor%>
+                  <span class="active"></span>
+                <%else%>
+                  <span></span>
+                <%end%>
+              <%end%>
+            </div>
+            <p class="h6 margin-none">Attaque</p>
+            <div class="scale scale_big" id="scale_strength">
+              <%for i in 1..10%>
+                <%if i <= warrior.strength%>
+                  <span class="active"></span>
+                <%else%>
+                  <span></span>
+                <%end%>
+              <%end%>
+            </div>
+            <p class="card-text"><%=(warrior.description).truncate(27)%></p>
             <%= link_to 'Voir le guerrier',  warrior_path(warrior), class: "btn btn-primary"  %>
           </div>
         </div>
@@ -19,17 +39,38 @@
     <h4>Pas de Guerriers</h4>
   <%end%>
 </div>
-<h2>Les Guerriers des ennemis</h2>
+<h2>Ennemis</h2>
 <div class="row">
   <%if @enemy_warriors.present?%>
     <%@enemy_warriors.each do |warrior|%>
-      <div class="col-md-4">
+      <div class="col-md-4" style="margin-bottom:15px">
         <div class="card">
+          <span class=card-level><%=warrior.level%></span>
           <span class="card-image"><%= image_tag(warrior.image_url, class: "card-img-top") %></span>
           <div class="card-body">
             <h5 class="card-title"><%=warrior.name%></h5>
-            <p class="card-text"><%=warrior.description%></p>
-            <%= link_to 'Créer un guerrier',  warrior_path(warrior), class: "btn btn-primary"  %>
+            <p class="h6 margin-none">Défense</p>
+            <div class="scale scale_big" id="scale_armor">
+              <%for i in 1..10%>
+                <%if i <= warrior.armor%>
+                  <span class="active"></span>
+                <%else%>
+                  <span></span>
+                <%end%>
+              <%end%>
+            </div>
+            <p class="h6 margin-none">Attaque</p>
+            <div class="scale scale_big" id="scale_strength">
+              <%for i in 1..10%>
+                <%if i <= warrior.strength%>
+                  <span class="active"></span>
+                <%else%>
+                  <span></span>
+                <%end%>
+              <%end%>
+            </div>
+            <p class="card-text"><%=(warrior.description).truncate(80)%></p>
+            <%= link_to 'Voir le guerrier',  warrior_path(warrior), class: "btn btn-primary"  %>
           </div>
         </div>
       </div>
