@@ -5,7 +5,7 @@ ruby '2.3.7'
 
 gem 'devise'
 gem 'jquery-rails', '4.3.1'
-gem 'carrierwave', '~> 1.0'
+gem 'carrierwave', '~> 1.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
